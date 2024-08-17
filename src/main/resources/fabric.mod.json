@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "element_combating",
+  "version": "0.0.1",
+
+  "name": "Element Combating",
+  "description": "Fight with elements!",
+  "authors": [
+    "forj"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "elementcombating.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "forj.elementcombating.ElementCombating"
+    ],
+    "client": [
+      "forj.elementcombating.ElementCombatingClient"
+    ]
+  },
+  "mixins": [
+    "elementcombating.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
