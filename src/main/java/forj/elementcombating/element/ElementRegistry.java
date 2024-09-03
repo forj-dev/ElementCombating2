@@ -1,5 +1,6 @@
 package forj.elementcombating.element;
 
+import forj.elementcombating.ElementCombating;
 import forj.elementcombating.utils.MapList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -80,5 +81,9 @@ public class ElementRegistry {
 
     public static Collection<AttackMode> getAttackModes() {
         return attackModes.values();
+    }
+
+    public static ElementType randomElement() {
+        return elementTypes.get(ElementCombating.RANDOM.nextInt(elementTypes.size()));
     }
 }

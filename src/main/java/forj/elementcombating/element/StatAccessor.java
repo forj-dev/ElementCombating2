@@ -1,5 +1,7 @@
 package forj.elementcombating.element;
 
+import forj.elementcombating.impl.ElementDamageInstance;
+
 public interface StatAccessor {
 
     ChargeManager getChargeManager();
@@ -16,9 +18,14 @@ public interface StatAccessor {
 
     ElementAttribute getBurstAttribute();
 
+    ElementDamageInstance getProjectileElement();
+
     @SuppressWarnings("unused")
     void setSkillAttribute(ElementAttribute attribute);
 
     void setBurstAttribute(ElementAttribute attribute);
+
+    @SuppressWarnings("unused")
+    void setProjectileElement(ElementDamageInstance element);
 
 }

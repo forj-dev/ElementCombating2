@@ -2,9 +2,12 @@ package forj.elementcombating.mixin;
 
 import forj.elementcombating.element.AttributeType;
 import forj.elementcombating.element.ElementAttribute;
+import forj.elementcombating.element.ElementRegistry;
+import forj.elementcombating.impl.ElementDamageInstance;
 import forj.elementcombating.item.Items;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.*;
@@ -57,6 +60,42 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 NbtCompound sword = itemStack.getSubNbt("element_attribute").copy();
                 sword.putInt("level", gem_lv);
                 itemStack2.setSubNbt("element_attribute", sword);
+                this.levelCost.set(2 * gem_lv);
+            }
+            this.repairItemUsage = 1;
+            this.output.setStack(0, itemStack2);
+            this.sendContentUpdates();
+            ci.cancel();
+        }
+        if (itemStack.getItem() instanceof RangedWeaponItem && itemStack3.isOf(Items.ELEMENT_GEM)){
+            int gem_lv, weapon_lv;
+            if (itemStack.getNbt() != null && itemStack3.getNbt() != null) {
+                gem_lv = itemStack3.getNbt().getInt("level");
+                weapon_lv = itemStack.getNbt().getCompound("element_attribute").getInt("level");
+            } else {
+                this.levelCost.set(0);
+                this.output.setStack(0, ItemStack.EMPTY);
+                ci.cancel();
+                return;
+            }
+            if (gem_lv != weapon_lv + 1) {
+                this.levelCost.set(0);
+                this.output.setStack(0, ItemStack.EMPTY);
+                ci.cancel();
+                return;
+            }
+            if (weapon_lv == 0) {
+                itemStack2.setSubNbt("projectile_element", new ElementDamageInstance(
+                        ElementRegistry.randomElement(),
+                        1, 100, 1f
+                ).save());
+                this.levelCost.set(3);
+            } else {
+                //noinspection DataFlowIssue
+                NbtCompound weapon = itemStack.getSubNbt("projectile_element").copy();
+                weapon.putInt("level", gem_lv);
+                weapon.putFloat("damage", gem_lv);
+                itemStack2.setSubNbt("projectile_element", weapon);
                 this.levelCost.set(2 * gem_lv);
             }
             this.repairItemUsage = 1;

@@ -40,6 +40,8 @@ public class ElementCombating implements ModInitializer {
 
     public static final Identifier EffectSync = new Identifier("element_combating", "effect_sync");
 
+    public static final Identifier ArrowElementSync = new Identifier("element_combating", "arrow_element_sync");
+
     public static final KeyBinding BurstKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key_bind.element_combating.burst",
             InputUtil.Type.KEYSYM,

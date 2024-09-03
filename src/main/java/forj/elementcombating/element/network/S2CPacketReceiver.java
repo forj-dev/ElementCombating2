@@ -2,10 +2,12 @@ package forj.elementcombating.element.network;
 
 import forj.elementcombating.ElementCombating;
 import forj.elementcombating.element.*;
+import forj.elementcombating.impl.ElementDamageInstance;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.nbt.NbtCompound;
 
 public class S2CPacketReceiver {
@@ -88,6 +90,30 @@ public class S2CPacketReceiver {
                         else
                             target.removeStatusEffect(effect);
                     });
+                });
+        ClientPlayNetworking.registerGlobalReceiver(ElementCombating.ArrowElementSync,
+                (client, handler, buf, responseSender) -> {
+                    int entityId = buf.readVarInt();
+                    boolean hasElement = buf.readBoolean();
+                    if (!hasElement) {
+                        client.execute(() -> {
+                            if (client.player == null) return;
+                            Entity entity = client.player.getWorld().getEntityById(entityId);
+                            if (!(entity instanceof ArrowEntity arrow)) return;
+                            ((ArrowElementAccessor) arrow).setElementDamageInstance(null);
+                        });
+                    } else {
+                        NbtCompound element = buf.readNbt();
+                        client.execute(() -> {
+                            if (client.player == null) return;
+                            Entity entity = client.player.getWorld().getEntityById(entityId);
+                            if (!(entity instanceof ArrowEntity arrow)) return;
+                            if (element == null)
+                                ((ArrowElementAccessor) arrow).setElementDamageInstance(null);
+                            else
+                                ((ArrowElementAccessor) arrow).setElementDamageInstance(new ElementDamageInstance(element));
+                        });
+                    }
                 });
     }
 }

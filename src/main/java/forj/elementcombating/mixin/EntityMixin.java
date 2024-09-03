@@ -4,6 +4,7 @@ import forj.elementcombating.element.*;
 import forj.elementcombating.element.network.ServerEntityShieldManager;
 import forj.elementcombating.element.network.ServerPlayerChargeManager;
 import forj.elementcombating.element.network.ServerPlayerCoolDownManager;
+import forj.elementcombating.impl.ElementDamageInstance;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -46,6 +47,8 @@ public abstract class EntityMixin implements StatAccessor {
     @Unique
     private ElementAttribute burstAttribute;
     @Unique
+    private ElementDamageInstance projectileElement;
+    @Unique
     private ShieldManager shieldManager;
     @Unique
     private FlagManager flagManager;
@@ -61,6 +64,10 @@ public abstract class EntityMixin implements StatAccessor {
         this.reactionManager = new ReactionManager();
         this.skillAttribute = new ElementAttribute(AttributeType.ENTITY_SKILL, 1);
         this.burstAttribute = new ElementAttribute(AttributeType.ENTITY_BURST, 1);
+        this.projectileElement = new ElementDamageInstance(
+                ElementRegistry.randomElement(),
+                1, 100, 1f
+        );
     }
 
     @Unique
@@ -85,6 +92,7 @@ public abstract class EntityMixin implements StatAccessor {
         this.shieldManager = oldEntity.shieldManager;
         this.burstAttribute = oldEntity.burstAttribute;
         this.skillAttribute = oldEntity.skillAttribute;
+        this.projectileElement = oldEntity.projectileElement;
     }
 
     @Inject(method = "readNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setVelocity(DDD)V"))
@@ -98,6 +106,10 @@ public abstract class EntityMixin implements StatAccessor {
             this.burstAttribute = new ElementAttribute(nbt.getCompound("element_burst"));
         } catch (RuntimeException ignored) {
         }
+        try {
+            this.projectileElement = new ElementDamageInstance(nbt.getCompound("element_projectile"));
+        } catch (RuntimeException ignored) {
+        }
     }
 
     @Inject(method = "writeNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getVelocity()Lnet/minecraft/util/math/Vec3d;"))
@@ -105,6 +117,7 @@ public abstract class EntityMixin implements StatAccessor {
         nbt.put("element_charge", this.chargeManager.save());
         nbt.put("element_skill", this.skillAttribute.save());
         nbt.put("element_burst", this.burstAttribute.save());
+        nbt.put("element_projectile", this.projectileElement.save());
     }
 
     @Inject(method = "baseTick", at = @At("HEAD"))
@@ -177,6 +190,18 @@ public abstract class EntityMixin implements StatAccessor {
     @Override
     public void setBurstAttribute(ElementAttribute attribute) {
         this.burstAttribute = attribute;
+    }
+
+    @Unique
+    @Override
+    public ElementDamageInstance getProjectileElement() {
+        return projectileElement;
+    }
+
+    @Unique
+    @Override
+    public void setProjectileElement(ElementDamageInstance element) {
+        this.projectileElement = element;
     }
 
 }
