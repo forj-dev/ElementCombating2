@@ -37,7 +37,7 @@ public class Commands {
                             NbtCompound nbt = item.getNbt();
                             if (nbt == null) nbt = new NbtCompound();
                             nbt.put("element_attribute",
-                                    new ElementAttribute(AttributeType.ITEM_SKILL, 1).save());
+                                    new ElementAttribute(AttributeType.ITEM_SKILL, 1, ElementProviders.NORMAL).save());
                             item.setNbt(nbt);
                             return 0;
                         })

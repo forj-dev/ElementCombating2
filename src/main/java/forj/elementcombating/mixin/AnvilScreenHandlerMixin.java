@@ -2,6 +2,7 @@ package forj.elementcombating.mixin;
 
 import forj.elementcombating.element.AttributeType;
 import forj.elementcombating.element.ElementAttribute;
+import forj.elementcombating.element.ElementProviders;
 import forj.elementcombating.element.ElementRegistry;
 import forj.elementcombating.impl.ElementDamageInstance;
 import forj.elementcombating.item.Items;
@@ -53,7 +54,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 return;
             }
             if (sword_lv == 0) {
-                itemStack2.setSubNbt("element_attribute", new ElementAttribute(AttributeType.ITEM_SKILL, 1).save());
+                itemStack2.setSubNbt("element_attribute", new ElementAttribute(AttributeType.ITEM_SKILL, 1, ElementProviders.PLAYER).save());
                 this.levelCost.set(3);
             } else {
                 //noinspection DataFlowIssue

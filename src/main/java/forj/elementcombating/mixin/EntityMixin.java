@@ -62,8 +62,8 @@ public abstract class EntityMixin implements StatAccessor {
         this.shieldManager = new ShieldManager();
         this.flagManager = new FlagManager((Entity) (Object) this);
         this.reactionManager = new ReactionManager();
-        this.skillAttribute = new ElementAttribute(AttributeType.ENTITY_SKILL, 1);
-        this.burstAttribute = new ElementAttribute(AttributeType.ENTITY_BURST, 1);
+        this.skillAttribute = new ElementAttribute(AttributeType.ENTITY_SKILL, 1, ElementProviders.fromEntity(type));
+        this.burstAttribute = new ElementAttribute(AttributeType.ENTITY_BURST, 1, ElementProviders.fromEntity(type));
         this.projectileElement = new ElementDamageInstance(
                 ElementRegistry.randomElement(),
                 1, 100, 1f

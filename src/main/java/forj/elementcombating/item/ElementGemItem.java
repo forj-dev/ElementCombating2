@@ -3,6 +3,7 @@ package forj.elementcombating.item;
 import forj.elementcombating.ElementCombating;
 import forj.elementcombating.element.AttributeType;
 import forj.elementcombating.element.ElementAttribute;
+import forj.elementcombating.element.ElementProviders;
 import forj.elementcombating.element.StatAccessor;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -54,7 +55,7 @@ public class ElementGemItem extends Item {
         int user_lv = attribute.getLevel();
         if (user_lv == 0 && gem_lv == 1) {
             if(!user.isCreative())item.decrement(1);
-            ((StatAccessor) user).setBurstAttribute(new ElementAttribute(AttributeType.ENTITY_BURST, 1));
+            ((StatAccessor) user).setBurstAttribute(new ElementAttribute(AttributeType.ENTITY_BURST, 1, ElementProviders.PLAYER));
             syncAttribute(user);
             return TypedActionResult.success(item);
         }

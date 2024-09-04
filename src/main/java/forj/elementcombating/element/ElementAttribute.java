@@ -1,7 +1,6 @@
 package forj.elementcombating.element;
 
 import forj.elementcombating.ElementCombating;
-import forj.elementcombating.utils.MapList;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 
@@ -22,11 +21,10 @@ public class ElementAttribute {
      * @param attributeType Type of generation
      * @param level         Element level
      */
-    public ElementAttribute(AttributeType attributeType, int level) {
+    public ElementAttribute(AttributeType attributeType, int level, ElementProvider provider) {
         this.attributeType = attributeType;
         this.level = level;
-        MapList<String, ElementType> types = ElementRegistry.getElementTypes();
-        this.elementType = types.get(ElementCombating.RANDOM.nextInt(types.size()));
+        this.elementType = provider.nextElement();
         List<AttackMode> modes = this.elementType.getAvailableModes(attributeType);
         if (!modes.isEmpty())
             this.attackModeInstance = new AttackModeInstance(
@@ -36,7 +34,7 @@ public class ElementAttribute {
                     EmptyMode.Instance.get(attributeType), this.elementType);
     }
 
-    public ElementAttribute(AttributeType attributeType, ElementType elementType, AttackMode attackMode,int level) {
+    public ElementAttribute(AttributeType attributeType, ElementType elementType, AttackMode attackMode, int level) {
         this.attributeType = attributeType;
         this.level = level;
         this.elementType = elementType;
