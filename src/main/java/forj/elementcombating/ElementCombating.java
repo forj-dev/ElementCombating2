@@ -60,6 +60,7 @@ public class ElementCombating implements ModInitializer {
     public void onInitialize() {
         GeckoLib.initialize();
         Utils.init();
+        DatapackProcessor.register();
         Elements.init();
         ElementEffects.register();
         initBypassesShieldSources();

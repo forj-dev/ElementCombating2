@@ -4,9 +4,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 
 public abstract class AttackMode {
-    private final AttributeType attributeType;
+    protected final AttributeType attributeType;
 
-    private final String id;
+    protected final String id;
 
     protected AttackMode(AttributeType attributeType, String id) {
         this.attributeType = attributeType;
