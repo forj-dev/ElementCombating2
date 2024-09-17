@@ -60,16 +60,13 @@ public class AttributeCreator {
             if (output.type == OutputVariable.Type.INT || output.type == OutputVariable.Type.BOOL) {
                 result.put(output.name, new Num(value.getLongValue()));
                 nbt.putLong(output.name, value.getLongValue());
-            }
-            else if (output.type == OutputVariable.Type.FLOAT) {
+            } else if (output.type == OutputVariable.Type.FLOAT) {
                 result.put(output.name, new Num(value.getDoubleValue()));
                 nbt.putDouble(output.name, value.getDoubleValue());
-            }
-            else if (value.isDouble) {
+            } else if (value.isDouble) {
                 result.put(output.name, new Num(value.doubleValue));
                 nbt.putDouble(output.name, value.doubleValue);
-            }
-            else {
+            } else {
                 result.put(output.name, new Num(value.longValue));
                 nbt.putLong(output.name, value.longValue);
             }
@@ -106,6 +103,7 @@ public class AttributeCreator {
         Node lastValue = new Node('c', new Num(0));
         Stack<Node> stack = new Stack<>();
         for (int i = 0; i < expression.length(); i++) {
+            boolean operatorCharModified = false;
             while (i < expression.length() && Character.isWhitespace(expression.charAt(i))) i++;
             if (i == expression.length()) break;
             char c = expression.charAt(i);
@@ -116,13 +114,14 @@ public class AttributeCreator {
                     case '>' -> 'g';
                     default -> throw new IllegalStateException("Unexpected value: " + c);
                 };
+                operatorCharModified = true;
                 i++;
             }
             if (c == '|' || c == '&' || c == '=') {
                 if (i + 1 < expression.length() && expression.charAt(i + 1) == c) i++;
                 else throw new IllegalArgumentException("Invalid operator: " + c);
             }
-            if (Character.isLetter(c) || c == '_') {
+            if (!operatorCharModified && (Character.isLetter(c) || c == '_')) {
                 int j = i + 1;
                 while (j < expression.length() && (Character.isLetter(expression.charAt(j)) || Character.isDigit(expression.charAt(j)) || expression.charAt(j) == '_'))
                     j++;
