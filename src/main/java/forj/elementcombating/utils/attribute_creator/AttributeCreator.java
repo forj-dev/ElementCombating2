@@ -92,10 +92,10 @@ public class AttributeCreator {
         if (node.operator == '|') return or(left, right);
         if (node.operator == '=') return eq(left, right);
         if (node.operator == 'n') return neq(left, right);
-        if (node.operator == 'l') return lt(left, right);
-        if (node.operator == 'g') return gt(left, right);
-        if (node.operator == '<') return le(left, right);
-        if (node.operator == '>') return ge(left, right);
+        if (node.operator == 'l') return le(left, right);
+        if (node.operator == 'g') return ge(left, right);
+        if (node.operator == '<') return lt(left, right);
+        if (node.operator == '>') return gt(left, right);
         throw new IllegalArgumentException("Unknown operator: " + node.operator);
     }
 
@@ -289,25 +289,25 @@ public class AttributeCreator {
         }
         if (node.operator == 'l' && node.left.operator == 'c' && node.right.operator == 'c') {
             node.operator = 'c';
-            node.value = lt(node.left.value, node.right.value);
+            node.value = le(node.left.value, node.right.value);
             node.left = null;
             node.right = null;
         }
         if (node.operator == 'g' && node.left.operator == 'c' && node.right.operator == 'c') {
             node.operator = 'c';
-            node.value = gt(node.left.value, node.right.value);
+            node.value = ge(node.left.value, node.right.value);
             node.left = null;
             node.right = null;
         }
         if (node.operator == '<' && node.left.operator == 'c' && node.right.operator == 'c') {
             node.operator = 'c';
-            node.value = le(node.left.value, node.right.value);
+            node.value = lt(node.left.value, node.right.value);
             node.left = null;
             node.right = null;
         }
         if (node.operator == '>' && node.left.operator == 'c' && node.right.operator == 'c') {
             node.operator = 'c';
-            node.value = ge(node.left.value, node.right.value);
+            node.value = gt(node.left.value, node.right.value);
             node.left = null;
             node.right = null;
         }
