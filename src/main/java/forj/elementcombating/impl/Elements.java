@@ -3,6 +3,7 @@ package forj.elementcombating.impl;
 import forj.elementcombating.ElementCombating;
 import forj.elementcombating.element.*;
 import forj.elementcombating.impl.attack_modes.PulseAttackMode;
+import forj.elementcombating.impl.attack_modes.SpurtAttackMode;
 import forj.elementcombating.impl.attack_modes.SweepAttackMode;
 import forj.elementcombating.impl.entity.entity.ElementCrystalEntity;
 import forj.elementcombating.impl.entity.entity.ElementDamageCrystalEntity;
@@ -133,6 +134,8 @@ public class Elements {
     public static final AttackMode SweepSkillMode = new SweepAttackMode(AttributeType.ITEM_SKILL);
     public static final AttackMode SweepMobMode = new SweepAttackMode(AttributeType.ENTITY_SKILL);
     public static final AttackMode PulseMode = new PulseAttackMode(AttributeType.ENTITY_BURST);
+    public static final AttackMode SpurtSkillMode = new SpurtAttackMode(AttributeType.ITEM_SKILL);
+    public static final AttackMode SpurtMobMode = new SpurtAttackMode(AttributeType.ENTITY_SKILL);
 
 
     //Register
@@ -141,17 +144,17 @@ public class Elements {
         ElementRegistry.registerElementTypes(Fire, Water, Electricity, Plant, Sculk, Soul, Void, Stone, Wind);
         ElementRegistry.registerElementEffects(BurstEffect, GrowEffect, ActivateEffect);
 
-        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
+        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
         Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Sculk.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
+        Sculk.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
         Void.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
+        Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
 
-        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode);
+        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
 
 
         registerElementReaction(Fire, Water, Vaporize);

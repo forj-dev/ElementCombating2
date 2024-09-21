@@ -27,5 +27,6 @@
   "mode.element_combating.empty": "無(請向伺服器管理員反映此問題)",
   "mode.element_combating.default": "預設",
   "mode.element_combating.sweep": "掃蕩",
-  "mode.element_combating.pulse": "元素脈衝"
+  "mode.element_combating.pulse": "元素脈衝",
+  "mode.element_combating.spurt": "突擊衝刺"
 }

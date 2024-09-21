@@ -37,6 +37,15 @@ public class Utils {
         return new Vec3d(ElementCombating.RANDOM.nextDouble() - 0.5, ElementCombating.RANDOM.nextDouble() - 0.5, ElementCombating.RANDOM.nextDouble() - 0.5).normalize().multiply(scale);
     }
 
+    public static Vec3d directionVec3d(double scale, double pitch, double yaw) {
+        pitch = Math.toRadians(pitch);
+        yaw = Math.toRadians(yaw);
+        double x = -Math.cos(pitch) * Math.sin(yaw) * scale;
+        double y = -Math.sin(pitch) * scale;
+        double z = Math.cos(pitch) * Math.cos(yaw) * scale;
+        return new Vec3d(x, y, z);
+    }
+
     public static void init() {
         TrackedDataHandlerRegistry.register(OptionalElementTypeTrackedDataHandler);
     }

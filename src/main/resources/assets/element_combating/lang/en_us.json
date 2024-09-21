@@ -27,5 +27,6 @@
   "mode.element_combating.empty": "None(Please report this problem to server admins)",
   "mode.element_combating.default": "Default",
   "mode.element_combating.sweep": "Sweeping Slash",
-  "mode.element_combating.pulse": "Elemental Pulse"
+  "mode.element_combating.pulse": "Elemental Pulse",
+  "mode.element_combating.spurt": "Assault Spurt"
 }
