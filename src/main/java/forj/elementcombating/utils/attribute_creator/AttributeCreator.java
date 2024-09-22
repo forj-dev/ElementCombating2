@@ -194,9 +194,9 @@ public class AttributeCreator {
             case '|' -> 2;
             case '!' -> 3;
             case '=', 'n', 'l', 'g', '<', '>' -> 4;
-            case '~' -> 5;
-            case '+', '-' -> 6;
-            case '*', '/', '%' -> 7;
+            case '+', '-' -> 5;
+            case '*', '/', '%' -> 6;
+            case '~' -> 7;
             case '^' -> 8;
             case '@' -> 9;
             default -> 999;
@@ -347,9 +347,17 @@ public class AttributeCreator {
             return longValue;
         }
 
+        public int getIntValue() {
+            return (int) getLongValue();
+        }
+
         public double getDoubleValue() {
             if (isDouble) return doubleValue;
             return longValue;
+        }
+
+        public float getFloatValue() {
+            return (float) getDoubleValue();
         }
 
         public boolean getBooleanValue() {
