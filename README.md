@@ -1,6 +1,6 @@
 # Element Combating2
 
-*English translated from Chinese by Fitten Code
+**Note: English translated by AI, may not be accurate.**
 
 **注意：该模组目前处于开发阶段,功能暂不完整,并且可能存在一些bug,请谨慎使用!**
 
