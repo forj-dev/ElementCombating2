@@ -19,16 +19,15 @@ public class SpurtAttackMode extends AttributedAttackMode {
     }
 
     @Override
-    public void onUse(LivingEntity user, ElementAttribute attribute) {
-        Map<String, AttributeCreator.Num> attributes = apply(attribute);
-        int lastTicks = (int) attributes.get("lastTicks").getLongValue();
-        int speedUpTicks = (int) attributes.get("speedUpTicks").getLongValue();
+    public void onUse(LivingEntity user, ElementAttribute attribute, Map<String, AttributeCreator.Num> attributes) {
+        int lastTicks = attributes.get("lastTicks").getIntValue();
+        int speedUpTicks = attributes.get("speedUpTicks").getIntValue();
         double speedUpStrength = attributes.get("speedUpStrength").getDoubleValue();
-        float removeSpeed = (float) attributes.get("removeSpeed").getDoubleValue();
-        int duration = (int) attributes.get("duration").getLongValue();
-        float damage = (float) attributes.get("damage").getDoubleValue();
-        int knockback = (int) attributes.get("knockback").getLongValue();
-        int cooldown = (int) attributes.get("cooldown").getLongValue();
+        float removeSpeed = attributes.get("removeSpeed").getFloatValue();
+        int duration = attributes.get("duration").getIntValue();
+        float damage = attributes.get("damage").getFloatValue();
+        int knockback = attributes.get("knockback").getIntValue();
+        int cooldown = attributes.get("cooldown").getIntValue();
         Vec3d motion = Utils.directionVec3d(speedUpStrength, user.getPitch(), user.getYaw());
         ElementDamageInstance damageInstance = new ElementDamageInstance(
                 attribute.getElementType(),

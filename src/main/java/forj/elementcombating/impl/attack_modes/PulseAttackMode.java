@@ -15,13 +15,12 @@ public class PulseAttackMode extends AttributedAttackMode {
     }
 
     @Override
-    public void onUse(LivingEntity user, ElementAttribute attribute) {
-        Map<String, AttributeCreator.Num> attributes = apply(attribute);
-        int times = (int) attributes.get("times").getLongValue();
-        float damage = (float) attributes.get("damage").getDoubleValue();
-        float range = (float) attributes.get("range").getDoubleValue();
-        int cooldown = (int) attributes.get("cooldown").getLongValue();
-        int pulseInterval = (int) attributes.get("pulse_interval").getLongValue();
+    public void onUse(LivingEntity user, ElementAttribute attribute, Map<String, AttributeCreator.Num> attributes) {
+        int times = attributes.get("times").getIntValue();
+        float damage = attributes.get("damage").getFloatValue();
+        float range = attributes.get("range").getFloatValue();
+        int cooldown = attributes.get("cooldown").getIntValue();
+        int pulseInterval = attributes.get("pulse_interval").getIntValue();
         ElementType type = attribute.getElementType();
         ElementDamageInstance damageInstance = new ElementDamageInstance(
                 type,

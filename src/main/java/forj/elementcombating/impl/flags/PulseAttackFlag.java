@@ -43,7 +43,7 @@ public class PulseAttackFlag implements Flag {
             ((StatAccessor)entity).getChargeManager().charge((ElementType) damageInstance.effect,0.005f);
         }
         //spawn a particle sphere
-        final int particleCount = 25;
+        int particleCount = (int)((range + 1) * (range + 1));
         final double angleMultiplier = 2 * Math.PI / particleCount;
         for (int i = 0; i < particleCount; i++) {
             double y = entity.getY() + entity.getHeight() / 2 + Math.sin(i * angleMultiplier) * range;

@@ -73,8 +73,8 @@ public class SpurtAttackFlag extends AttackFlag {
 
     private static void knockback(LivingEntity entity, LivingEntity attacker, float knockback) {
         Vec3d motion = attacker.getVelocity();
-        double x = entity.getX() - attacker.getX() + 0.7 * motion.x;
-        double z = entity.getZ() - attacker.getZ() + 0.7 * motion.z;
+        double x = attacker.getX() - entity.getX() + 0.7 * motion.x;
+        double z = attacker.getZ() - entity.getZ() + 0.7 * motion.z;
         entity.takeKnockback(knockback, x, z);
     }
 

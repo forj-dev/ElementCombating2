@@ -5,6 +5,7 @@ import forj.elementcombating.utils.attribute_creator.AttributeCreator;
 import forj.elementcombating.utils.attribute_creator.AttributeCreatorProvider;
 import forj.elementcombating.utils.attribute_creator.MultiMap;
 import forj.elementcombating.utils.attribute_creator.NbtMap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.HashMap;
@@ -35,6 +36,14 @@ public abstract class AttributedAttackMode extends AttackMode {
         return validator.create(modeData).getOrDefault("valid", new AttributeCreator.Num(false))
                 .getBooleanValue();
     }
+
+    @Override
+    public void onUse(LivingEntity user, ElementAttribute attribute) {
+        Map<String, AttributeCreator.Num> attributes = apply(attribute);
+        onUse(user, attribute, attributes);
+    }
+
+    protected abstract void onUse(LivingEntity user, ElementAttribute attribute, Map<String, AttributeCreator.Num> attributes);
 
     protected Map<String, AttributeCreator.Num> apply(ElementAttribute attribute){
         AttributedElementMap map = new AttributedElementMap(attributeType, attribute.getElementType(), attribute.getLevel());

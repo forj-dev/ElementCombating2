@@ -3,6 +3,7 @@ package forj.elementcombating.impl;
 import forj.elementcombating.ElementCombating;
 import forj.elementcombating.element.*;
 import forj.elementcombating.impl.attack_modes.PulseAttackMode;
+import forj.elementcombating.impl.attack_modes.ShieldBashAttackMode;
 import forj.elementcombating.impl.attack_modes.SpurtAttackMode;
 import forj.elementcombating.impl.attack_modes.SweepAttackMode;
 import forj.elementcombating.impl.entity.entity.ElementCrystalEntity;
@@ -83,7 +84,7 @@ public class Elements {
     public static final ElementReaction DiffuseWater = getDiffuse(Water, 2.5f);
     public static final ElementReaction Activate = (target, attacker, level, damage) -> {
         ActivateEffect.attack(target, attacker, level, (int) (Math.sqrt(level) * 200), (float) Math.sqrt(level) * 5f + 0.7f * damage);
-        ParticleS2CPacket packet = new ParticleS2CPacket(new DustParticleEffect(new Vec3f(0.8f,0f,0.1f),ElementCombating.RANDOM.nextFloat(1.5f,2.5f)), false, target.getX(), target.getY() + target.getHeight() / 2, target.getZ(), 0.4f, 0.7f, 0.4f, 0.1f, 10);
+        ParticleS2CPacket packet = new ParticleS2CPacket(new DustParticleEffect(new Vec3f(0.8f, 0f, 0.1f), ElementCombating.RANDOM.nextFloat(1.5f, 2.5f)), false, target.getX(), target.getY() + target.getHeight() / 2, target.getZ(), 0.4f, 0.7f, 0.4f, 0.1f, 10);
         for (ServerPlayerEntity player : PlayerLookup.tracking(target))
             player.networkHandler.sendPacket(packet);
     };
@@ -136,6 +137,8 @@ public class Elements {
     public static final AttackMode PulseMode = new PulseAttackMode(AttributeType.ENTITY_BURST);
     public static final AttackMode SpurtSkillMode = new SpurtAttackMode(AttributeType.ITEM_SKILL);
     public static final AttackMode SpurtMobMode = new SpurtAttackMode(AttributeType.ENTITY_SKILL);
+    public static final AttackMode ShieldBashSkillMode = new ShieldBashAttackMode(AttributeType.ITEM_SKILL);
+    public static final AttackMode ShieldBashMobMode = new ShieldBashAttackMode(AttributeType.ENTITY_SKILL);
 
 
     //Register
@@ -147,14 +150,14 @@ public class Elements {
         Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
         Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
         Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
-        Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
+        Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, ShieldBashSkillMode, ShieldBashMobMode);
         Sculk.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
-        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
         Void.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
-        Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
         Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
 
-        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
 
 
         registerElementReaction(Fire, Water, Vaporize);
@@ -235,7 +238,7 @@ public class Elements {
     private static ElementReaction getDiffuse(ElementType type, float range) {
         return (target, attacker, level, damage) -> {
             Box box = Box.of(target.getPos(), 2 * range, 2 * range, 2 * range);
-            ParticleS2CPacket packet = new ParticleS2CPacket(new DustParticleEffect(new Vec3f(Vec3d.unpackRgb(type.getColor())),ElementCombating.RANDOM.nextFloat(1.5f,2.5f)), false, target.getX(), target.getY() + target.getHeight() / 2, target.getZ(), 0.4f, 0.7f, 0.4f, 0.1f, 20);
+            ParticleS2CPacket packet = new ParticleS2CPacket(new DustParticleEffect(new Vec3f(Vec3d.unpackRgb(type.getColor())), ElementCombating.RANDOM.nextFloat(1.5f, 2.5f)), false, target.getX(), target.getY() + target.getHeight() / 2, target.getZ(), 0.4f, 0.7f, 0.4f, 0.1f, 20);
             for (ServerPlayerEntity player : PlayerLookup.tracking(target))
                 player.networkHandler.sendPacket(packet);
             List<LivingEntity> entities = target.getWorld().getEntitiesByClass(LivingEntity.class, box, e -> e.squaredDistanceTo(target) <= range * range);

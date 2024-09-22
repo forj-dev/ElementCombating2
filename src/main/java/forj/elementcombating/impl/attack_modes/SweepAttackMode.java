@@ -17,25 +17,24 @@ public class SweepAttackMode extends AttributedAttackMode {
     }
 
     @Override
-    public void onUse(LivingEntity user, ElementAttribute attribute) {
-        Map<String, AttributeCreator.Num> attributes = apply(attribute);
+    public void onUse(LivingEntity user, ElementAttribute attribute, Map<String, AttributeCreator.Num> attributes) {
         ElementDamageInstance damageInstance = new ElementDamageInstance(
                 attribute.getElementType(),
                 attribute.getLevel(),
-                (int) attributes.get("duration").getLongValue(),
-                (float) attributes.get("damage").getDoubleValue()
+                attributes.get("duration").getIntValue(),
+                attributes.get("damage").getFloatValue()
         );
         StatAccessor accessor = (StatAccessor) user;
         accessor.getCoolDownManager().set(attribute.getAttributeType(), attribute.getElementType(),
-                (int) attributes.get("cooldown").getLongValue());
+                attributes.get("cooldown").getIntValue());
         SweepAttackFlag flag = new SweepAttackFlag(
-                (int) attributes.get("lastTicks").getLongValue(),
-                (float) attributes.get("pitch").getDoubleValue(),
-                (float) attributes.get("yaw").getDoubleValue(),
-                (float) attributes.get("pitchSpeed").getDoubleValue(),
-                (float) attributes.get("yawSpeed").getDoubleValue(),
-                (float) attributes.get("hitBoxSize").getDoubleValue(),
-                (float) attributes.get("hitBoxDistance").getDoubleValue(),
+                attributes.get("lastTicks").getIntValue(),
+                attributes.get("pitch").getFloatValue(),
+                attributes.get("yaw").getFloatValue(),
+                attributes.get("pitchSpeed").getFloatValue(),
+                attributes.get("yawSpeed").getFloatValue(),
+                attributes.get("hitBoxSize").getFloatValue(),
+                attributes.get("hitBoxDistance").getFloatValue(),
                 damageInstance,
                 user
         );
