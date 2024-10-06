@@ -2,8 +2,10 @@ package forj.elementcombating.impl.entity;
 
 import forj.elementcombating.impl.entity.entity.ElementCrystalEntity;
 import forj.elementcombating.impl.entity.entity.ElementDamageCrystalEntity;
+import forj.elementcombating.impl.entity.entity.TornadoEntity;
 import forj.elementcombating.impl.entity.model.ElementDamageCrystalEntityModel;
 import forj.elementcombating.impl.entity.model.ElementCrystalEntityModel;
+import forj.elementcombating.impl.entity.model.TornadoEntityModel;
 import forj.elementcombating.impl.entity.renderer.GeoEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -18,6 +20,8 @@ public class Entities {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<ElementCrystalEntity>) ElementCrystalEntity::new).dimensions(EntityDimensions.fixed(0.375f, 0.8125f)).build());
     public static final EntityType<ElementDamageCrystalEntity> ELEMENT_DAMAGE_CRYSTAL_ENTITY = Registry.register(Registry.ENTITY_TYPE, new Identifier("element_combating", "recorder"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<ElementDamageCrystalEntity>) ElementDamageCrystalEntity::new).dimensions(EntityDimensions.fixed(0.375f, 0.8125f)).build());
+    public static final EntityType<TornadoEntity> TORNADO_ENTITY = Registry.register(Registry.ENTITY_TYPE, new Identifier("element_combating", "tornado"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<TornadoEntity>) TornadoEntity::new).dimensions(EntityDimensions.fixed(1.5f, 2.8f)).build());
 
     public static void init() {
     }
@@ -25,5 +29,6 @@ public class Entities {
     public static void initClient() {
         EntityRendererRegistry.register(ELEMENT_CRYSTAL_ENTITY, GeoEntityRenderer.getRendererFactory(new ElementCrystalEntityModel()));
         EntityRendererRegistry.register(ELEMENT_DAMAGE_CRYSTAL_ENTITY, GeoEntityRenderer.getRendererFactory(new ElementDamageCrystalEntityModel()));
+        EntityRendererRegistry.register(TORNADO_ENTITY, GeoEntityRenderer.getRendererFactory(new TornadoEntityModel()));
     }
 }

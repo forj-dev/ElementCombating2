@@ -2,12 +2,10 @@ package forj.elementcombating.impl;
 
 import forj.elementcombating.ElementCombating;
 import forj.elementcombating.element.*;
-import forj.elementcombating.impl.attack_modes.PulseAttackMode;
-import forj.elementcombating.impl.attack_modes.ShieldBashAttackMode;
-import forj.elementcombating.impl.attack_modes.SpurtAttackMode;
-import forj.elementcombating.impl.attack_modes.SweepAttackMode;
+import forj.elementcombating.impl.attack_modes.*;
 import forj.elementcombating.impl.entity.entity.ElementCrystalEntity;
 import forj.elementcombating.impl.entity.entity.ElementDamageCrystalEntity;
+import forj.elementcombating.impl.entity.entity.TornadoEntity;
 import forj.elementcombating.impl.status_effect.ElementEffects;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.LivingEntity;
@@ -139,6 +137,7 @@ public class Elements {
     public static final AttackMode SpurtMobMode = new SpurtAttackMode(AttributeType.ENTITY_SKILL);
     public static final AttackMode ShieldBashSkillMode = new ShieldBashAttackMode(AttributeType.ITEM_SKILL);
     public static final AttackMode ShieldBashMobMode = new ShieldBashAttackMode(AttributeType.ENTITY_SKILL);
+    public static final AttackMode TornadoMode = new TornadoAttackMode(AttributeType.ENTITY_BURST);
 
 
     //Register
@@ -147,18 +146,19 @@ public class Elements {
         ElementRegistry.registerElementTypes(Fire, Water, Electricity, Plant, Sculk, Soul, Void, Stone, Wind);
         ElementRegistry.registerElementEffects(BurstEffect, GrowEffect, ActivateEffect);
 
-        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
-        Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
-        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
+        Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
+        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
         Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, ShieldBashSkillMode, ShieldBashMobMode);
         Sculk.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
-        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
+        Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode);
         Void.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode);
         Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
-        Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
+        Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
 
-        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
+        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode);
 
+        TornadoEntity.init();
 
         registerElementReaction(Fire, Water, Vaporize);
         registerElementReaction(Fire, Electricity, Overload);

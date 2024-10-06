@@ -28,5 +28,6 @@
   "mode.element_combating.default": "Default",
   "mode.element_combating.sweep": "Sweeping Slash",
   "mode.element_combating.pulse": "Elemental Pulse",
-  "mode.element_combating.spurt": "Assault Spurt"
+  "mode.element_combating.spurt": "Assault Spurt",
+  "mode.element_combating.tornado": "Elemental Tornado"
 }
