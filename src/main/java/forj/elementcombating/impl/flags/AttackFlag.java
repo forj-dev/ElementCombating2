@@ -25,4 +25,14 @@ public abstract class AttackFlag implements Flag {
         markAttacked(target);
         return true;
     }
+
+    @Override
+    public void onAdd(Entity entity) {
+        isRemoved = false;
+    }
+
+    @Override
+    public void onRemove(Entity entity) {
+        isRemoved = true;
+    }
 }

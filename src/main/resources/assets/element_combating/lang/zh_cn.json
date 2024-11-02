@@ -29,5 +29,6 @@
   "mode.element_combating.sweep": "扫荡",
   "mode.element_combating.pulse": "元素脉冲",
   "mode.element_combating.spurt": "突击冲刺",
-  "mode.element_combating.tornado": "元素龙卷风"
+  "mode.element_combating.tornado": "元素龙卷风",
+  "mode.element_combating.chain_lightning": "连锁闪电"
 }

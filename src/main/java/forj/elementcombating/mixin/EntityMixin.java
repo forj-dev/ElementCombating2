@@ -95,6 +95,11 @@ public abstract class EntityMixin implements StatAccessor {
         this.projectileElement = oldEntity.projectileElement;
     }
 
+    @Inject(method = "remove", at = @At("HEAD"))
+    public void remove(Entity.RemovalReason reason, CallbackInfo ci) {
+        this.flagManager.discard();
+    }
+
     @Inject(method = "readNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setVelocity(DDD)V"))
     public void readNbt(NbtCompound nbt, CallbackInfo ci) {
         this.chargeManager.load(nbt.getList("element_charge", NbtType.COMPOUND));

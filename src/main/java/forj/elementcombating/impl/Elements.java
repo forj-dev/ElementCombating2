@@ -138,6 +138,7 @@ public class Elements {
     public static final AttackMode ShieldBashSkillMode = new ShieldBashAttackMode(AttributeType.ITEM_SKILL);
     public static final AttackMode ShieldBashMobMode = new ShieldBashAttackMode(AttributeType.ENTITY_SKILL);
     public static final AttackMode TornadoMode = new TornadoAttackMode(AttributeType.ENTITY_BURST);
+    public static final AttackMode ChainLightningMode = new ChainLightningAttackMode(AttributeType.ENTITY_BURST);
 
 
     //Register
@@ -148,7 +149,7 @@ public class Elements {
 
         Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
         Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
-        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
+        Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode, ChainLightningMode);
         Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, ShieldBashSkillMode, ShieldBashMobMode);
         Sculk.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode);
         Soul.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode);
@@ -156,7 +157,7 @@ public class Elements {
         Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
         Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
 
-        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode);
+        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode, ChainLightningMode);
 
         TornadoEntity.init();
 

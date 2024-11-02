@@ -18,6 +18,7 @@ public class FlagManager {
 
     public void add(Flag flag) {
         this.flags.add(flag);
+        flag.onAdd(this.entity);
     }
 
     @SuppressWarnings({"unchecked", "ForLoopReplaceableByForEach"})
@@ -27,6 +28,9 @@ public class FlagManager {
             Flag flag = this.flags.get(i);
             if (!clazz.isInstance(flag) || !predicate.test((F) flag)) {
                 new_flags.add(flag);
+            }
+            else {
+                flag.onRemove(this.entity);
             }
         }
         this.flags = new_flags;
@@ -48,5 +52,9 @@ public class FlagManager {
      */
     public void update() {
         this.removeByClass(Flag.class, flag -> flag.shouldRemove(this.entity));
+    }
+
+    public void discard() {
+        this.removeByClass(Flag.class, flag -> true);
     }
 }
