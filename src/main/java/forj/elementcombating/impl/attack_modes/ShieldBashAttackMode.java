@@ -42,6 +42,7 @@ public class ShieldBashAttackMode extends AttributedAttackMode {
             if (target == user || target.squaredDistanceTo(user) > squaredRange) continue;
             damageInstance.damage(target, user);
             Utils.knockback(target, user, knockback);
+            ((StatAccessor) user).getChargeManager().charge(attribute.getElementType(), 0.07f);
         }
         //spawn a particle sphere
         int particleCount = (int) ((range + 1) * (range + 1));

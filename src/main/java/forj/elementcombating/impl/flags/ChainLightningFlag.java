@@ -1,6 +1,7 @@
 package forj.elementcombating.impl.flags;
 
 import forj.elementcombating.ElementCombating;
+import forj.elementcombating.element.ElementType;
 import forj.elementcombating.element.Flag;
 import forj.elementcombating.element.StatAccessor;
 import forj.elementcombating.impl.ElementDamageInstance;
@@ -82,6 +83,8 @@ public class ChainLightningFlag implements Flag {
             ChainLightningFlag flag = new ChainLightningFlag(attackerFlag.spreadCountDown, range, damageInstance, this, target, maxSpreadEntities, spreadTimes - 1);
             ((StatAccessor) target).getFlagManager().add(flag);
             damageInstance.damage(target, attackerFlag.owner);
+            if (damageInstance.effect instanceof ElementType elementType)
+                ((StatAccessor) attackerFlag.owner).getChargeManager().charge(elementType, spreadTimes * 0.001f);
         }
     }
 
