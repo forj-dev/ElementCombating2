@@ -39,6 +39,12 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Gradle-Build
+        path: build/libs/*.jar
+
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
