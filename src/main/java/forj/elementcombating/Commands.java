@@ -10,14 +10,19 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import forj.elementcombating.element.*;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -30,35 +35,117 @@ public class Commands {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> dispatcher.register(
                 literal("give-attribute")
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                        .executes(context -> {
-                            ServerPlayerEntity sender = context.getSource().getPlayer();
-                            ItemStack item = sender.getMainHandStack();
-                            if (item == null) return -1;
-                            NbtCompound nbt = item.getNbt();
-                            if (nbt == null) nbt = new NbtCompound();
-                            nbt.put("element_attribute",
-                                    new ElementAttribute(AttributeType.ITEM_SKILL, 1, ElementProviders.NORMAL).save());
-                            item.setNbt(nbt);
-                            return 0;
-                        })
-                        .then(argument("type", ElementTypeArgumentType.elementType())
-                                .then(argument("mode", AttackModeArgumentType.attackMode())
+                        .then(literal("entity-burst")
+                                .then(argument("targets", EntityArgumentType.entities())
+                                        .then(argument("element", ElementTypeArgumentType.elementType())
+                                                .then(argument("mode", AttackModeArgumentType.attackMode())
+                                                        .executes(context -> {
+                                                            ElementType elementType = ElementTypeArgumentType.getElementType(context, "element");
+                                                            AttackMode attackMode = AttackModeArgumentType.getAttackMode(context, "mode");
+                                                            int c = 0;
+                                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                                if (!(entity instanceof LivingEntity)) continue;
+                                                                ElementAttribute attribute = getAttribute(AttributeType.ENTITY_BURST, elementType, attackMode);
+                                                                ((StatAccessor) entity).setBurstAttribute(attribute);
+                                                                if (entity instanceof PlayerEntity player)
+                                                                    syncAttribute(player);
+                                                                c++;
+                                                            }
+                                                            return c;
+                                                        })
+                                                )
+                                        )
                                         .executes(context -> {
-                                            ServerPlayerEntity sender = context.getSource().getPlayer();
-                                            ItemStack item = sender.getMainHandStack();
-                                            if (item == null) return -1;
-                                            NbtCompound nbt = item.getNbt();
-                                            if (nbt == null) nbt = new NbtCompound();
-                                            nbt.put(
-                                                    "element_attribute",
-                                                    new ElementAttribute(AttributeType.ITEM_SKILL,
-                                                            ElementTypeArgumentType.getElementType(context, "type"),
-                                                            AttackModeArgumentType.getAttackMode(context, "mode"),
-                                                            1
-                                                    ).save()
-                                            );
-                                            item.setNbt(nbt);
-                                            return 0;
+                                            int c = 0;
+                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                if (!(entity instanceof LivingEntity)) continue;
+                                                ((StatAccessor) entity).setBurstAttribute(new ElementAttribute(
+                                                        AttributeType.ENTITY_BURST,
+                                                        1,
+                                                        ElementProviders.fromEntity(entity.getType())
+                                                ));
+                                                if (entity instanceof PlayerEntity player)
+                                                    syncAttribute(player);
+                                                c++;
+                                            }
+                                            return c;
+                                        })
+                                )
+                        )
+                        .then(literal("entity-skill")
+                                .then(argument("targets", EntityArgumentType.entities())
+                                        .then(argument("element", ElementTypeArgumentType.elementType())
+                                                .then(argument("mode", AttackModeArgumentType.attackMode())
+                                                        .executes(context -> {
+                                                            ElementType elementType = ElementTypeArgumentType.getElementType(context, "element");
+                                                            AttackMode attackMode = AttackModeArgumentType.getAttackMode(context, "mode");
+                                                            int c = 0;
+                                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                                if (!(entity instanceof LivingEntity)) continue;
+                                                                ElementAttribute attribute = getAttribute(AttributeType.ENTITY_SKILL, elementType, attackMode);
+                                                                ((StatAccessor) entity).setSkillAttribute(attribute);
+                                                                c++;
+                                                            }
+                                                            return c;
+                                                        })
+                                                )
+                                        )
+                                        .executes(context -> {
+                                            int c = 0;
+                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                if (!(entity instanceof LivingEntity)) continue;
+                                                ((StatAccessor) entity).setSkillAttribute(new ElementAttribute(
+                                                        AttributeType.ENTITY_SKILL,
+                                                        1,
+                                                        ElementProviders.fromEntity(entity.getType())
+                                                ));
+                                                c++;
+                                            }
+                                            return c;
+                                        })
+                                )
+                        )
+                        .then(literal("item-skill")
+                                .then(argument("targets", EntityArgumentType.entities())
+                                        .then(argument("element", ElementTypeArgumentType.elementType())
+                                                .then(argument("mode", AttackModeArgumentType.attackMode())
+                                                        .executes(context -> {
+                                                            ElementType elementType = ElementTypeArgumentType.getElementType(context, "element");
+                                                            AttackMode attackMode = AttackModeArgumentType.getAttackMode(context, "mode");
+                                                            int c = 0;
+                                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                                if (!(entity instanceof LivingEntity target)) continue;
+                                                                ItemStack item = target.getMainHandStack();
+                                                                if (item == null || item.isEmpty()) continue;
+                                                                ElementAttribute attribute = getAttribute(AttributeType.ITEM_SKILL, elementType, attackMode);
+                                                                NbtCompound nbt = item.getNbt();
+                                                                if (nbt == null) nbt = new NbtCompound();
+                                                                nbt.put("element_attribute", attribute.save());
+                                                                item.setNbt(nbt);
+                                                                c++;
+                                                            }
+                                                            return c;
+                                                        })
+                                                )
+                                        )
+                                        .executes(context -> {
+                                            int c = 0;
+                                            for (Entity entity : EntityArgumentType.getEntities(context, "targets")) {
+                                                if (!(entity instanceof LivingEntity target)) continue;
+                                                ItemStack item = target.getMainHandStack();
+                                                if (item == null || item.isEmpty()) continue;
+                                                ElementAttribute attribute = new ElementAttribute(
+                                                        AttributeType.ITEM_SKILL,
+                                                        1,
+                                                        ElementProviders.fromEntity(entity.getType())
+                                                );
+                                                NbtCompound nbt = item.getNbt();
+                                                if (nbt == null) nbt = new NbtCompound();
+                                                nbt.put("element_attribute", attribute.save());
+                                                item.setNbt(nbt);
+                                                c++;
+                                            }
+                                            return c;
                                         })
                                 )
                         )
@@ -98,6 +185,27 @@ public class Commands {
                                                     }
                                                     return c;
                                                 }))))));
+    }
+
+    @NotNull
+    private static ElementAttribute getAttribute(AttributeType itemSkill, ElementType elementType, AttackMode attackMode) {
+        ElementAttribute attribute = new ElementAttribute(
+                itemSkill,
+                elementType,
+                attackMode,
+                1
+        );
+        if (attackMode.getId().equals("empty"))
+            attribute.setLevel(0);
+        return attribute;
+    }
+
+    private static void syncAttribute(PlayerEntity user) {
+        if (!(user instanceof ServerPlayerEntity player)) return;
+        NbtCompound nbt = ((StatAccessor) player).getBurstAttribute().save();
+        PacketByteBuf buffer = PacketByteBufs.create();
+        buffer.writeNbt(nbt);
+        ServerPlayNetworking.send(player, ElementCombating.AttributeSync, buffer);
     }
 
     public static class ElementTypeArgumentType implements ArgumentType<ElementType> {
@@ -152,6 +260,8 @@ public class Commands {
 
         @Override
         public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
+            if ("empty".startsWith(builder.getRemainingLowerCase()))
+                builder.suggest("empty");
             for (AttackMode attackMode : ElementRegistry.getAttackModes()) {
                 String id = attackMode.getId();
                 if (id.startsWith(builder.getRemainingLowerCase())) {
