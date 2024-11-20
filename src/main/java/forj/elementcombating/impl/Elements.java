@@ -139,6 +139,8 @@ public class Elements {
     public static final AttackMode ShieldBashMobMode = new ShieldBashAttackMode(AttributeType.ENTITY_SKILL);
     public static final AttackMode TornadoMode = new TornadoAttackMode(AttributeType.ENTITY_BURST);
     public static final AttackMode ChainLightningMode = new ChainLightningAttackMode(AttributeType.ENTITY_BURST);
+    public static final AttackMode MagmaEruptSkillMode = new MagmaEruptAttackMode(AttributeType.ITEM_SKILL);
+    public static final AttackMode MagmaEruptMobMode = new MagmaEruptAttackMode(AttributeType.ENTITY_SKILL);
 
 
     //Register
@@ -147,7 +149,7 @@ public class Elements {
         ElementRegistry.registerElementTypes(Fire, Water, Electricity, Plant, Sculk, Soul, Void, Stone, Wind);
         ElementRegistry.registerElementEffects(BurstEffect, GrowEffect, ActivateEffect);
 
-        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
+        Fire.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode, MagmaEruptSkillMode, MagmaEruptMobMode);
         Water.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
         Electricity.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode, ChainLightningMode);
         Plant.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, ShieldBashSkillMode, ShieldBashMobMode);
@@ -157,7 +159,7 @@ public class Elements {
         Stone.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode);
         Wind.addAvailableMode(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, TornadoMode);
 
-        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode, ChainLightningMode);
+        ElementRegistry.registerAttackModes(SweepSkillMode, SweepMobMode, PulseMode, SpurtSkillMode, SpurtMobMode, ShieldBashSkillMode, ShieldBashMobMode, TornadoMode, ChainLightningMode, MagmaEruptSkillMode, MagmaEruptMobMode);
 
         TornadoEntity.init();
 

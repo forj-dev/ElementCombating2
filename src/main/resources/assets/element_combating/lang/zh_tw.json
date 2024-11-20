@@ -31,5 +31,6 @@
   "mode.element_combating.spurt": "突擊衝刺",
   "mode.element_combating.shield_bash": "盾擊",
   "mode.element_combating.tornado": "元素龍卷風",
-  "mode.element_combating.chain_lightning": "鏈雷"
+  "mode.element_combating.chain_lightning": "鏈雷",
+  "mode.element_combating.magma_erupt": "地爆裂"
 }

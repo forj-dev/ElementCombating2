@@ -31,5 +31,6 @@
   "mode.element_combating.spurt": "Assault Spurt",
   "mode.element_combating.shield_bash": "Shield Bash",
   "mode.element_combating.tornado": "Elemental Tornado",
-  "mode.element_combating.chain_lightning": "Chain Lightning"
+  "mode.element_combating.chain_lightning": "Chain Lightning",
+  "mode.element_combating.magma_erupt": "Magma Eruption"
 }
